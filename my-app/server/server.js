@@ -1,6 +1,6 @@
 const express = require('express');
 const { ApolloServer, gql } = require('apollo-server-express');
-const TrackAPI = require('../src/datasource');
+const NasaAPI = require('../src/datasource');
 
 const {
   GraphQLObjectType,
@@ -28,7 +28,11 @@ const resolvers = {
   },
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ typeDefs, resolvers, dataSources: () => {
+  return {
+    nasaAPI: new NasaAPI(),
+  };
+}, });
 
 const app = express();
 
